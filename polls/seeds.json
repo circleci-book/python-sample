@@ -1,0 +1,30 @@
+[{
+        "model": "polls.Question",
+        "pk": 1,
+        "fields": {
+            "question_text": "What's up?",
+            "pub_date": "2019-12-01 12:00:00"
+        }
+    },
+    {
+        "model": "polls.Choice",
+        "fields": {
+            "choice_text": "Not much",
+            "question": 1
+        }
+    },
+    {
+        "model": "polls.Choice",
+        "fields": {
+            "choice_text": "The sky",
+            "question": 1
+        }
+    },
+    {
+        "model": "polls.Choice",
+        "fields": {
+            "choice_text": "Just hacking again",
+            "question": 1
+        }
+    }
+]

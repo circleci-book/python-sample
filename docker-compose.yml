@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    build: .
+    volumes:
+      - .:/circleci-sample
+    ports:
+      - "8000:8000"
+    command: pipenv run python manage.py runserver 0:8000
+    environment:
+      DB_NAME: dev_db
+      DB_USER: root
+      DB_HOST: db
+      DB_PASSWORD: ''
+      DB_PORT: 3306
+  db:
+    image: circleci/mysql:5.7
+    volumes:
+      - ./docker-runtime/mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: dev_db

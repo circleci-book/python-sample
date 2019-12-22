@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+pytz = "==2019.3"
+sqlparse = "==0.3.0"
+Django = "==2.2.6"
+mysqlclient = "*"
+unittest-xml-reporting = "*"
+coverage = "*"
+
+[requires]
+python_version = "3.8"

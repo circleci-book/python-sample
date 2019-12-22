@@ -1,0 +1,48 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.8
+        environment:
+          DB_NAME: test_db
+          DB_USER: root
+          DB_HOST: 127.0.0.1
+          DB_PASSWORD: ''
+          DB_PORT: 3306
+
+      - image: circleci/mysql:5.7
+        environment:
+          MYSQL_DATABASE:  test_db
+    steps:
+      - checkout
+      - run:
+          name: キャッシュディレクトリの所有者を変更
+          command: |
+            sudo chown -R circleci:circleci /usr/local/bin
+            sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
+      - restore_cache:
+          key: deps-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      - run:
+          name: 依存関係のインストール
+          command: |
+            pipenv install
+      - save_cache:
+          key: deps-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
+            - ".venv"
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.6/site-packages"
+      - run:
+          name: テストを実行
+          command: |
+            pipenv run coverage run manage.py test
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: test-reports
+      - run:
+          name: カバレッジレポートを生成
+          command: |
+            pipenv run coverage html
+      - store_artifacts:
+            path: htmlcov
